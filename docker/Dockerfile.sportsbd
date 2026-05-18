@@ -1,0 +1,27 @@
+FROM python:3.11-slim
+
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+ENV PIP_NO_CACHE_DIR=1
+
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ffmpeg \
+    libgl1 \
+    libglib2.0-0 \
+    libsm6 \
+    libxext6 \
+    libxrender1 \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY docker/requirements-sportsbd.txt /tmp/requirements-sportsbd.txt
+
+RUN python -m pip install --upgrade pip
+RUN python -m pip install --extra-index-url https://download.pytorch.org/whl/cu121 -r /tmp/requirements-sportsbd.txt
+
+COPY project/src /app/project/src
+COPY assets/models/sportsbd /app/assets/models/sportsbd
+COPY assets/dataset/sportsbd/Users/mehdi/hockey-shot-boundary-detection/3dcnn/raw_data_FPS_25 /app/assets/dataset/sportsbd/Users/mehdi/hockey-shot-boundary-detection/3dcnn/raw_data_FPS_25
+
+ENTRYPOINT ["python", "project/src/run_sportsbd_experiment.py"]

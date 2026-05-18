@@ -1,0 +1,28 @@
+FROM python:3.11-slim
+
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+ENV PIP_NO_CACHE_DIR=1
+
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ffmpeg \
+    libgl1 \
+    libglib2.0-0 \
+    libsm6 \
+    libxext6 \
+    libxrender1 \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY docker/requirements-yolo.txt /tmp/requirements-yolo.txt
+
+RUN python -m pip install --upgrade pip
+RUN python -m pip install --extra-index-url https://download.pytorch.org/whl/cu121 -r /tmp/requirements-yolo.txt
+
+COPY project/src /app/project/src
+COPY assets/models/yolo /app/assets/models/yolo
+COPY assets/dataset/soccersum/Eliteserien/2021/frames /app/assets/dataset/soccersum/Eliteserien/2021/frames
+COPY assets/dataset/soccersum/Eliteserien/2021/detection /app/assets/dataset/soccersum/Eliteserien/2021/detection
+
+ENTRYPOINT ["python", "project/src/run_yolo_experiment.py"]

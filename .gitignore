@@ -1,0 +1,86 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# Virtual environments
+.venv/
+.venv*/
+venv/
+env/
+
+# Environment / secrets
+.env
+.env.*
+*.key
+*.pem
+
+# Private data and models
+assets/
+data/
+dataset/
+datasets/
+raw_data/
+processed_data/
+models/
+weights/
+*.pt
+*.pth
+*.onnx
+*.ckpt
+*.bin
+*.safetensors
+
+# Outputs and experiment artifacts
+outputs/
+output/
+runs/
+results/
+logs/
+wandb/
+mlruns/
+tensorboard/
+checkpoints/
+transfer_artifacts/
+*_results_*/
+*_outputs_*/
+
+# Large media and archives
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.zip
+*.tar
+*.tar.gz
+*.rar
+*.7z
+
+# Generated tabular files
+*.csv
+*.jsonl
+*.parquet
+*.feather
+*.h5
+*.hdf5
+
+# Local scripts and notes
+*.ps1
+*.sh
+*.bat
+*.cmd
+*.txt
+!docker/requirements-yolo.txt
+!docker/requirements-sportsbd.txt
+!requirements.txt
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
